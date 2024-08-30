@@ -1,16 +1,14 @@
 COMPILER = g++
 ARCHITECTURE_FLAGS = -march=native
-GUROBI_PATH = $(GUROBI_HOME) # Set GUROBI_HOME to the path of your Gurobi installation, automatically done in flake.nix
-GUROBI_FLAGS = -I $(GUROBI_PATH)/linux64/include -L $(GUROBI_PATH)/linux64/lib -lgurobi_c++ -lgurobi110
-COMPILER_FLAGS = -O3 -std=c++17 -Wall -Wextra -Wfatal-errors $(ARCHITECTURE_FLAGS) $(GUROBI_FLAGS)
+# Set GUROBI_HOME to the path of your Gurobi installation, automatically done in flake.nix
+# Set GUROBI_VERSION to the version of your Gurobi installation, automatically done in flake.nix
+GUROBI_FLAGS = -I $(GUROBI_HOME)/include -L $(GUROBI_HOME)/lib -lgurobi_c++ -lgurobi$(GUROBI_VERSION) -lm
+COMPILER_FLAGS = -std=c++17 -m64 -Wall -Wfatal-errors -O3 $(ARCHITECTURE_FLAGS)
 
 all: main
 
 main: mip1_c++.cpp
-	$(COMPILER) $(COMPILER_FLAGS) -o main mip1_c++.cpp
-
-# main: mip1_c++.cpp
-# 	g++ -std=c++98 -m64 -g -o mip1_c++ ../c++/mip1_c++.cpp -I../../include/ -L../../lib -lgurobi_c++ -lgurobi110 -lm
+	$(COMPILER) $(COMPILER_FLAGS) -o main mip1_c++.cpp $(GUROBI_FLAGS)
 
 clean:
 	rm -f main

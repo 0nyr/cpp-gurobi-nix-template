@@ -26,7 +26,7 @@
           shellHook = ''
             export LD_LIBRARY_PATH=${pkgs.gurobi}/lib:$LD_LIBRARY_PATH
             export GUROBI_HOME=${pkgs.gurobi}
-            export GUROBI_VERSION=$(basename $(ls -d ${pkgs.gurobi}))
+            export GUROBI_VERSION=$(basename $(ls -d ${pkgs.gurobi}) | sed 's/.*-\([0-9]\+\)\.\([0-9]\+\).*/\1\2/')
             echo "Welcome to your C++ development environment with Gurobi"
           '';
         };
